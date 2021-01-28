@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:socialapp/modeller/kombin.dart';
 import 'package:socialapp/modeller/kullanici.dart';
-import 'package:socialapp/sayfalar/akis.dart';
-import 'package:socialapp/sayfalar/anasayfa.dart';
+//import 'package:socialapp/sayfalar/akis.dart';
+//import 'package:socialapp/sayfalar/anasayfa.dart';
 import 'package:story_view/story_view.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class Kombinler extends StatefulWidget {
   final List<Kombin> kombin;
@@ -16,44 +17,60 @@ class Kombinler extends StatefulWidget {
 
 class _KombinlerState extends State<Kombinler> {
   final storyController = StoryController();
+  List<StoryItem> stories = new List();
+  final controller = PageController();
+  @override
+  void initState() {
+    super.initState();
+    timeago.setLocaleMessages('tr', timeago.TrMessages());
+    for (var i = 0; i < widget.kombin.length; i++) {
+      if (widget.kombin[i].yayinlayanId == widget.yayinlayan.id) {
+        stories.add(
+          StoryItem.pageImage(
+            url: widget.kombin[i].kombinResmiUrl,
+            controller: storyController,
+            caption: widget.yayinlayan.kullaniciAdi +
+                "    " +
+                timeago.format(widget.kombin[i].olusturmaZamani.toDate(),
+                    locale: "tr"),
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    storyController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: StoryView(
-        storyItems: [
-          StoryItem.pageImage(
-            url: widget.kombin[0].kombinResmiUrl,
-            caption: widget.yayinlayan.kullaniciAdi,
-            controller: storyController,
-          ),
-          StoryItem.pageImage(
-            url: widget.kombin[1].kombinResmiUrl,
-            caption: "Still sampling",
-            controller: storyController,
-          ),
-          StoryItem.pageImage(
-              url: "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
-              caption: "Working with gifs",
-              controller: storyController),
-          StoryItem.pageImage(
-            url: "https://media.giphy.com/media/XcA8krYsrEAYXKf4UQ/giphy.gif",
-            caption: "Hello, from the other side",
-            controller: storyController,
-          ),
-        ],
-        onStoryShow: (s) {
-          print("Showing a story");
-        },
-        onComplete: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AnaSayfa()));
+    return StoryView(
+      storyItems: stories,
+      controller: storyController,
+      onStoryShow: (s) {
+        print("Showing a story");
+      },
+      onComplete: () {
+        print("Completed a cycle");
+        Navigator.pop(context);
+      },
+      progressPosition: ProgressPosition.top,
+      repeat: true,
+    );
+  }
 
-          // print("Completed a cycle");
-        },
-        progressPosition: ProgressPosition.top,
-        repeat: false,
-        controller: storyController,
-      ),
+  PageView buildPage2(Kombin kombin) {
+    return PageView(
+      controller: controller,
+      children: [
+        Image(
+          image: NetworkImage(kombin.kombinResmiUrl),
+        ),
+      ],
+      physics: BouncingScrollPhysics(),
     );
   }
 }

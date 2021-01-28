@@ -281,7 +281,19 @@ class FireStoreServisi {
     return kombinler;
   }
 
-  Future<List<Kombin>> istenilenAkisKombinleriniGetir(
+  Future<List<Kombin>> kullaniciKombinleriGetir(kullaniciID) async {
+    QuerySnapshot snapshot = await _firestore
+        .collection("kombinler")
+        .document(kullaniciID)
+        .collection("kullaniciKombinleri")
+        .orderBy("olusturmaZamani", descending: true)
+        .getDocuments();
+    List<Kombin> kombinler =
+        snapshot.documents.map((doc) => Kombin.dokumandanuret(doc)).toList();
+    return kombinler;
+  }
+
+  /*Future<List<Kombin>> istenilenAkisKombinleriniGetir(
       kullaniciID, istenilenId) async {
     // var addDt = DateTime.now();
     var saatKurali = DateTime.now().subtract(Duration(hours: 24));
@@ -295,7 +307,7 @@ class FireStoreServisi {
     List<Kombin> kombinler =
         snapshot.documents.map((doc) => Kombin.dokumandanuret(doc)).toList();
     return kombinler;
-  }
+  }*/
 
   Future<void> gonderiSil({String aktifKullaniciId, Gonderi gonderi}) async {
     _firestore

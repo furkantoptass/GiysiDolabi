@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/modeller/gonderi.dart';
 import 'package:socialapp/modeller/kullanici.dart';
+import 'package:socialapp/sayfalar/secimler.dart';
+import 'package:socialapp/sayfalar/kombinlerim.dart';
 import 'package:socialapp/sayfalar/profilduzenle.dart';
 import 'package:socialapp/sayfalar/takipcilistesi.dart';
 import 'package:socialapp/sayfalar/takipedilenlistesi.dart';
@@ -79,6 +81,17 @@ class _ProfilState extends State<Profil> {
     _takipKontrol();
   }
 
+  void choiceAction(String choice) {
+    if (choice == Constans.cikisYap) {
+      _cikisYap();
+    }
+    if (choice == Constans.kombinler) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Kombinlerim()));
+    }
+    if (choice == Constans.ayarlar) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,10 +108,16 @@ class _ProfilState extends State<Profil> {
         backgroundColor: Colors.orange[300],
         actions: <Widget>[
           widget.profilSahibiid == _aktifKullaniciId
-              ? IconButton(
-                  icon: Icon(Icons.exit_to_app),
-                  onPressed: _cikisYap,
-                  color: Colors.grey[100],
+              ? PopupMenuButton<String>(
+                  onSelected: choiceAction,
+                  itemBuilder: (context) {
+                    return Constans.choices.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(choice),
+                      );
+                    }).toList();
+                  },
                 )
               : SizedBox(
                   height: 0.0,

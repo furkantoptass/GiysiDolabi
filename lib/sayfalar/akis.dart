@@ -20,6 +20,7 @@ class Akis extends StatefulWidget {
 class _AkisState extends State<Akis> {
   List<Gonderi> _gonderiler = [];
   List<Kombin> _kombinler = [];
+
   Future<void> _akisKombinleriveGonderileriGetir() async {
     String aktifKullaniciId =
         Provider.of<YetkilendirmeServisi>(context, listen: false)
