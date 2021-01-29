@@ -36,17 +36,22 @@ class _MesajOlusturState extends State<MesajOlustur> {
   AppBar _appbarOlustur() {
     return AppBar(
       titleSpacing: 0.0,
+      toolbarHeight: 50,
+      //shadowColor: Colors.grey[400],
+      centerTitle: true,
+      backgroundColor: Colors.orange[300],
       title: Text(
         "Takip Edilen Listesi",
         style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
+          color: Colors.grey[100],
+          fontSize: 22,
+          fontFamily: 'LobsterTwoItalic',
         ),
       ),
       leading: IconButton(
           icon: Icon(
             Icons.close,
-            color: Colors.black,
+            color: Colors.grey[100],
           ),
           onPressed: () => Navigator.pop(context)),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/modeller/kullanici.dart';
 import 'package:socialapp/modeller/mesaj.dart';
+import 'package:socialapp/sayfalar/profil.dart';
 import 'package:socialapp/servisler/firestoreservisi.dart';
 import 'package:socialapp/servisler/yetkilendirmeservisi.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -63,14 +64,42 @@ class _MesajSayfasiState extends State<MesajSayfasi> {
         return Scaffold(
           appBar: AppBar(
             actions: [
-              CircleAvatar(
-                backgroundColor: Colors.grey,
-                backgroundImage: NetworkImage(gidenmesajsahibi.fotourl),
-                radius: 25,
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Profil(
+                            profilSahibiid: gidenmesajsahibi.id,
+                          ),
+                        ),
+                      );
+                    });
+                  },
+                  child: Container(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey,
+                      backgroundImage: NetworkImage(gidenmesajsahibi.fotourl),
+                      radius: 20,
+                    ),
+                  ),
+                ),
               ),
             ],
             centerTitle: true,
-            title: Text(gidenmesajsahibi.kullaniciAdi + " İle Mesaj"),
+            toolbarHeight: 50.0,
+            backgroundColor: Colors.orange[300],
+            title: Text(
+              gidenmesajsahibi.kullaniciAdi + " İle Mesaj",
+              style: TextStyle(
+                color: Colors.grey[100],
+                fontSize: 17,
+                fontFamily: 'RobotoLightItalic',
+              ),
+            ),
           ),
           body: Column(
             children: [
@@ -138,42 +167,45 @@ class _MesajSayfasiState extends State<MesajSayfasi> {
   Align mesajalign(Mesaj mesaj, Kullanici yayinlayan, sendByMe) {
     return Align(
       alignment: sendByMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin:
-            sendByMe ? EdgeInsets.only(left: 15) : EdgeInsets.only(right: 15),
-        padding: EdgeInsets.only(top: 10, bottom: 10, left: 8, right: 8),
-        decoration: BoxDecoration(
-          borderRadius: sendByMe
-              ? BorderRadius.only(
-                  topLeft: Radius.circular(23),
-                  topRight: Radius.circular(23),
-                  bottomLeft: Radius.circular(23))
-              : BorderRadius.only(
-                  topLeft: Radius.circular(23),
-                  topRight: Radius.circular(23),
-                  bottomRight: Radius.circular(23)),
-          gradient: LinearGradient(
-            colors: sendByMe
-                ? [const Color(0xff007EF4), const Color(0xff2A75BC)]
-                : [Colors.red, Colors.red],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          margin:
+              sendByMe ? EdgeInsets.only(left: 15) : EdgeInsets.only(right: 15),
+          padding: EdgeInsets.only(top: 10, bottom: 10, left: 8, right: 8),
+          decoration: BoxDecoration(
+            borderRadius: sendByMe
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(23),
+                    topRight: Radius.circular(23),
+                    bottomLeft: Radius.circular(23))
+                : BorderRadius.only(
+                    topLeft: Radius.circular(23),
+                    topRight: Radius.circular(23),
+                    bottomRight: Radius.circular(23)),
+            gradient: LinearGradient(
+              colors: sendByMe
+                  ? [const Color(0xff007EF4), const Color(0xff2A75BC)]
+                  : [Colors.red, Colors.red],
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            Text(
-              mesaj.icerik,
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontFamily: 'OverpassRegular',
-                  fontWeight: FontWeight.w300),
-            ),
-            Text(
-              timeago.format(mesaj.olusturmaZamani.toDate(), locale: "tr"),
-              style: TextStyle(color: Colors.white, fontSize: 12),
-            ),
-          ],
+          child: Column(
+            children: [
+              Text(
+                mesaj.icerik,
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.grey[100],
+                  fontSize: 15,
+                  fontFamily: 'RobotoLight',
+                ),
+              ),
+              Text(
+                timeago.format(mesaj.olusturmaZamani.toDate(), locale: "tr"),
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ],
+          ),
         ),
       ),
     );

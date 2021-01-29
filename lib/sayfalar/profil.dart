@@ -239,13 +239,19 @@ class _ProfilState extends State<Profil> {
             profilData.kullaniciAdi,
             style: TextStyle(
               fontSize: 15.0,
-              fontWeight: FontWeight.bold,
+              fontFamily: "RobotoBlack",
             ),
           ),
           SizedBox(
             height: 5.0,
           ),
-          Text(profilData.hakkinda),
+          Text(
+            profilData.hakkinda,
+            style: TextStyle(
+              fontSize: 13.0,
+              fontFamily: "RobotoLightItalic",
+            ),
+          ),
           SizedBox(
             height: 25.0,
           ),
@@ -323,7 +329,10 @@ class _ProfilState extends State<Profil> {
                         profil: profilSahibi,
                       )));
         },
-        child: Text("Profil Düzenle"),
+        child: Text(
+          "Profil Düzenle",
+          style: TextStyle(fontFamily: "RobotoLightItalic", fontSize: 15),
+        ),
       ),
     );
   }

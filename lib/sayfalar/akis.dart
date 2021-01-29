@@ -65,7 +65,7 @@ class _AkisState extends State<Akis> {
                   context, MaterialPageRoute(builder: (context) => ChatRoom()));
             },
             child: Icon(
-              Icons.message,
+              FontAwesomeIcons.commentMedical,
               color: Colors.grey[100],
               size: 25,
             ),
@@ -167,7 +167,7 @@ class _AkisState extends State<Akis> {
         ),
         Text(
           yayinlayan.kullaniciAdi,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontFamily: "RobotoBlack"),
         )
       ],
     );

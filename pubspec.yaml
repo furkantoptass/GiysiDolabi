@@ -91,6 +91,28 @@ flutter:
     - family: LobsterTwo
       fonts:
         - asset: assets/fonts/LobsterTwo-Regular.ttf
+    - family: RobotoBlack
+      fonts:
+        - asset: assets/fonts/Roboto-Black.ttf
+
+    - family: RobotoItalic
+      fonts:
+        - asset: assets/fonts/Roboto-Italic.ttf
+
+    - family: RobotoBold
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf
+    - family: RobotoLight
+      fonts:
+        - asset: assets/fonts/Roboto-Light.ttf
+    
+    - family: RobotoMedium
+      fonts:
+        - asset: assets/fonts/Roboto-Medium.ttf
+    - family: RobotoLightItalic
+      fonts:
+        - asset: assets/fonts/Roboto-LightItalic.ttf
+    
                       
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

@@ -29,12 +29,22 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("MESAJLAR"),
-        elevation: 0.0,
+        toolbarHeight: 50,
+        //shadowColor: Colors.grey[400],
         centerTitle: true,
+        backgroundColor: Colors.orange[300],
+        title: Text(
+          "Mesajlar",
+          style: TextStyle(
+            color: Colors.grey[100],
+            fontSize: 22,
+            fontFamily: 'LobsterTwoItalic',
+          ),
+        ),
       ),
       body: sonuclariGetir(),
       floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.orange[300],
           child: Icon(Icons.message),
           onPressed: () {
             Navigator.push(context,
@@ -86,7 +96,8 @@ class _ChatRoomState extends State<ChatRoom> {
         title: Text(
           kullanici.kullaniciAdi,
           style: TextStyle(
-            fontWeight: FontWeight.bold,
+            fontFamily: "RobotoBlack",
+            fontSize: 17,
           ),
         ),
       ),

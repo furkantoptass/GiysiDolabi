@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/sayfalar/akis.dart';
 import 'package:socialapp/sayfalar/ara.dart';
@@ -79,8 +80,8 @@ class _AnaSayfaState extends State<AnaSayfa> {
             color: Colors.grey[500],
           ),
           Icon(
-            Icons.supervised_user_circle,
-            size: 30,
+            FontAwesomeIcons.user,
+            size: 27,
             color: Colors.grey[500],
           ),
         ],

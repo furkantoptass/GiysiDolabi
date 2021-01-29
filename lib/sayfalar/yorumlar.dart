@@ -28,12 +28,19 @@ class _YorumlarState extends State<Yorumlar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[100],
+        toolbarHeight: 50,
+        //shadowColor: Colors.grey[400],
+        centerTitle: true,
+        backgroundColor: Colors.orange[300],
         title: Text(
           "Yorumlar",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: Colors.grey[100],
+            fontSize: 22,
+            fontFamily: 'LobsterTwoItalic',
+          ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.grey[100]),
       ),
       body: Column(
         children: <Widget>[

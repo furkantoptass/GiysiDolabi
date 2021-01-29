@@ -26,22 +26,30 @@ class _ProfilDuzenleState extends State<ProfilDuzenle> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[100],
+        toolbarHeight: 50,
+        //shadowColor: Colors.grey[400],
+        centerTitle: true,
+        backgroundColor: Colors.orange[300],
         title: Text(
-          "Profili Düzenle",
-          style: TextStyle(color: Colors.black),
+          "Profil Düzenle",
+          style: TextStyle(
+            color: Colors.grey[100],
+            fontSize: 22,
+            fontFamily: 'LobsterTwoItalic',
+          ),
         ),
+
         leading: IconButton(
             icon: Icon(
               Icons.close,
-              color: Colors.black,
+              color: Colors.grey[100],
             ),
             onPressed: () => Navigator.pop(context)),
         actions: [
           IconButton(
               icon: Icon(
                 Icons.check,
-                color: Colors.black,
+                color: Colors.grey[100],
               ),
               onPressed: _kaydet),
         ],

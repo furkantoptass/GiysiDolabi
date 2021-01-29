@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/modeller/gonderi.dart';
 import 'package:socialapp/modeller/kullanici.dart';
@@ -118,7 +119,10 @@ class _GonderiKartiState extends State<GonderiKarti> {
         },
         child: Text(
           widget.yayinlayan.kullaniciAdi,
-          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 16.0,
+              fontFamily: "RobotoLight",
+              fontWeight: FontWeight.w700),
         ),
       ),
       trailing: _aktifKullaniciID == widget.gonderi.yayinlayanId
@@ -152,84 +156,120 @@ class _GonderiKartiState extends State<GonderiKarti> {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            IconButton(
-              icon: !_begendin
-                  ? Icon(
-                      Icons.favorite_border,
-                      size: 35.0,
-                    )
-                  : Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 35.0,
-                    ),
-              onPressed: _begeniDegistir,
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.comment,
-                size: 35.0,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Yorumlar(
-                      gonderi: widget.gonderi,
-                    ),
+            //      widget.gonderi.aciklama.isNotEmpty ?
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: RichText(
+                text: TextSpan(
+                  text: widget.yayinlayan.kullaniciAdi + " ",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: "RobotoBlack",
+                    color: Colors.black,
                   ),
-                );
-              },
-            )
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BegeniListesi(
-                    gonderi: widget.gonderi,
-                  ),
+                  children: [
+                    TextSpan(
+                        text: widget.gonderi.aciklama,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.0,
+                            fontFamily: "RobotoLight",
+                            fontWeight: FontWeight.w600)),
+                  ],
                 ),
-              );
-            },
-            child: Text(
-              "$_begeniSayisi Beğeni",
-              style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
+
+            Spacer(),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: !_begendin
+                        ? Icon(
+                            Icons.favorite_border,
+                            size: 35.0,
+                          )
+                        : Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 35.0,
+                          ),
+                    onPressed: _begeniDegistir,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      FontAwesomeIcons.commentDots,
+                      size: 30.0,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Yorumlar(
+                            gonderi: widget.gonderi,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BegeniListesi(
+                                gonderi: widget.gonderi,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "$_begeniSayisi Beğeni",
+                          style: TextStyle(
+                              fontSize: 15.0, fontFamily: "RobotoBlack"),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         SizedBox(
           height: 2.0,
         ),
-        widget.gonderi.aciklama.isNotEmpty
-            ? Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: RichText(
-                  text: TextSpan(
-                    text: widget.yayinlayan.kullaniciAdi + " ",
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    children: [
-                      TextSpan(
-                          text: widget.gonderi.aciklama,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.normal)),
-                    ],
-                  ),
-                ),
-              )
-            : SizedBox(
-                height: 0.0,
-              ),
+        // widget.gonderi.aciklama.isNotEmpty
+        //     ? Padding(
+        //         padding: const EdgeInsets.only(left: 8.0),
+        //         child: RichText(
+        //           text: TextSpan(
+        //             text: widget.yayinlayan.kullaniciAdi + " ",
+        //             style: TextStyle(
+        //               fontSize: 15.0,
+        //               fontFamily: "RobotoBlack",
+        //               color: Colors.black,
+        //             ),
+        //             children: [
+        //               TextSpan(
+        //                   text: widget.gonderi.aciklama,
+        //                   style: TextStyle(
+        //                       color: Colors.black,
+        //                       fontSize: 14.0,
+        //                       fontFamily: "RobotoBold")),
+        //             ],
+        //           ),
+        //         ),
+        //       )
+        //     : SizedBox(
+        //         height: 0.0,
+        //       ),
       ],
     );
   }

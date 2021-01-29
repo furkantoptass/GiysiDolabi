@@ -21,7 +21,7 @@ class _AraState extends State<Ara> {
 
   AppBar _appbarOlustur() {
     return AppBar(
-      toolbarHeight: 50,
+      toolbarHeight: 60,
       // titleSpacing: 0.0,
       backgroundColor: Colors.orange[300],
       title: TextFormField(
@@ -58,6 +58,7 @@ class _AraState extends State<Ara> {
           fillColor: Colors.grey[100],
           filled: true,
           hintText: "Kullanıcı Ara",
+
           contentPadding: EdgeInsets.only(top: 16.0),
         ),
       ),
