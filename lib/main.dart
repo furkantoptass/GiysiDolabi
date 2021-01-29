@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       create: (_) => YetkilendirmeServisi(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Projem',
+        title: 'Giysi Dolabı',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
