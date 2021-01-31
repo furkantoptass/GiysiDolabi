@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/modeller/kombin.dart';
+import 'package:socialapp/sayfalar/teklikombin.dart';
 import 'package:socialapp/servisler/firestoreservisi.dart';
 import 'package:socialapp/servisler/yetkilendirmeservisi.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -28,6 +29,7 @@ class _KombinlerimState extends State<Kombinlerim> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     timeago.setLocaleMessages('tr', timeago.TrMessages());
@@ -37,7 +39,17 @@ class _KombinlerimState extends State<Kombinlerim> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          "Kombinlerim",
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: 'LobsterTwoItalic',
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.orange[300],
+      ),
       body: ListView.builder(
         itemCount: _kombinler.length,
         itemBuilder: (BuildContext context, int index) {
@@ -65,7 +77,14 @@ class _KombinlerimState extends State<Kombinlerim> {
                 color: Colors.black12, offset: Offset(0, 2), blurRadius: 6.0)
           ]),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TekliKombin(
+                            kombin: kombin,
+                          )));
+            },
             child: CircleAvatar(
               backgroundColor: Colors.orange[300],
               //radius: 500,

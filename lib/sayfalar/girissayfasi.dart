@@ -172,12 +172,13 @@ class _GirisSayfasiState extends State<GirisSayfasi> {
     if (_formAnahtari.currentState.validate()) {
       _formAnahtari.currentState.save();
       setState(() {
-        yukleniyor = true;
+        yukleniyor = false;
       });
       try {
         await _yetkilendirmeServisi.mailileGiris(email, sifre);
       } catch (err) {
         uyariGoster(hatakodu: err.code);
+        yukleniyor = false;
       }
     }
   }

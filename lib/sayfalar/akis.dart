@@ -20,6 +20,7 @@ class Akis extends StatefulWidget {
 class _AkisState extends State<Akis> {
   List<Gonderi> _gonderiler = [];
   List<Kombin> _kombinler = [];
+  List<String> yayinlananKullanici = [];
 
   Future<void> _akisKombinleriveGonderileriGetir() async {
     String aktifKullaniciId =
@@ -110,67 +111,84 @@ class _AkisState extends State<Akis> {
 
   ListView kombinGetir() {
     return ListView.builder(
-        shrinkWrap: true,
-        primary: false,
-        scrollDirection: Axis.horizontal,
-        itemCount: _kombinler.length,
-        itemBuilder: (context, index) {
-          Kombin kombin = _kombinler[index];
+      shrinkWrap: true,
+      primary: false,
+      scrollDirection: Axis.horizontal,
+      itemCount: _kombinler.length,
+      itemBuilder: (context, index) {
+        Kombin kombin = _kombinler[index];
+        yayinlananKullanici = [];
+        return FutureBuilder(
+          future: FireStoreServisi().kullanicilariGetir(kombin.yayinlayanId),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return SizedBox();
+            }
 
-          return FutureBuilder(
-            future: FireStoreServisi().kullanicilariGetir(kombin.yayinlayanId),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return SizedBox();
-              }
-              Kullanici kombinSahibi = snapshot.data;
-              return kombinKarti(kombin, kombinSahibi);
-            },
-          );
-        });
+            Kullanici kombinSahibi = snapshot.data;
+
+            return kombinKarti(kombin, kombinSahibi);
+          },
+        );
+      },
+    );
   }
 
-  Column kombinKarti(Kombin kombin, Kullanici yayinlayan) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.all(10.0),
-          width: 80.0,
-          height: 60.0,
-          decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
-            BoxShadow(
-                color: Colors.black12, offset: Offset(0, 2), blurRadius: 6.0)
-          ]),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Kombinler(
-                            kombin: _kombinler,
-                            yayinlayan: yayinlayan,
-                          )));
-            },
-            child: CircleAvatar(
-              backgroundColor: Colors.orange[300],
-              //radius: 500,
+  kombinKarti(Kombin kombin, Kullanici yayinlayan) {
+    bool kullaniciVarmi = false;
+
+    for (var i = 0; i < yayinlananKullanici.length; i++) {
+      if (yayinlananKullanici[i] == yayinlayan.id) {
+        kullaniciVarmi = true;
+      }
+    }
+    print(yayinlananKullanici);
+    if (!kullaniciVarmi) {
+      yayinlananKullanici.add(kombin.yayinlayanId);
+      //print(yayinlayan.kullaniciAdi);
+      return Column(
+        children: [
+          Container(
+            margin: EdgeInsets.all(10.0),
+            width: 80.0,
+            height: 60.0,
+            decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+              BoxShadow(
+                  color: Colors.black12, offset: Offset(0, 2), blurRadius: 6.0)
+            ]),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Kombinler(
+                              kombin: _kombinler,
+                              yayinlayan: yayinlayan,
+                            )));
+              },
               child: CircleAvatar(
-                radius: 27,
-                backgroundImage: NetworkImage(yayinlayan.fotourl),
-                // width: 60.0,
-                // height: 60.0,
-                // image: ,
-                // fit: BoxFit.cover,
+                backgroundColor: Colors.orange[300],
+                //radius: 500,
+                child: CircleAvatar(
+                  radius: 27,
+                  backgroundImage: NetworkImage(yayinlayan.fotourl),
+                  // width: 60.0,
+                  // height: 60.0,
+                  // image: ,
+                  // fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-        ),
-        Text(
-          yayinlayan.kullaniciAdi,
-          style: TextStyle(fontFamily: "RobotoBlack"),
-        )
-      ],
-    );
+          Text(
+            yayinlayan.kullaniciAdi,
+            style: TextStyle(fontFamily: "RobotoBlack"),
+          )
+        ],
+      );
+    } else {
+      return Column();
+    }
   }
 
   ListView gonderiGetir() {
