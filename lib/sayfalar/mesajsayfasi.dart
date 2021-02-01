@@ -185,8 +185,8 @@ class _MesajSayfasiState extends State<MesajSayfasi> {
                     bottomRight: Radius.circular(23)),
             gradient: LinearGradient(
               colors: sendByMe
-                  ? [const Color(0xff007EF4), const Color(0xff2A75BC)]
-                  : [Colors.red, Colors.red],
+                  ? [Colors.black, Colors.grey]
+                  : [Colors.brown, Colors.brown],
             ),
           ),
           child: Column(

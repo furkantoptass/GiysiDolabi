@@ -13,6 +13,7 @@ class TekliKombin extends StatefulWidget {
 class _TekliKombinState extends State<TekliKombin> {
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     timeago.setLocaleMessages('tr', timeago.TrMessages());

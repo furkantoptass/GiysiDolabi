@@ -20,7 +20,17 @@ class _HesapOlusturState extends State<HesapOlustur> {
     return Scaffold(
         key: _scaffoldAnahtari,
         appBar: AppBar(
-          title: Text("Hesap Oluştur"),
+          centerTitle: true,
+          toolbarHeight: 50,
+          title: Text(
+            "Hesap Olustur",
+            style: TextStyle(
+              color: Colors.grey[100],
+              fontSize: 22,
+              fontFamily: 'LobsterTwoItalic',
+            ),
+          ),
+          backgroundColor: Colors.orange[300],
         ),
         body: ListView(
           children: <Widget>[
@@ -120,7 +130,7 @@ class _HesapOlusturState extends State<HesapOlustur> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.orange[300],
                           textColor: Colors.white,
                         ),
                       ),

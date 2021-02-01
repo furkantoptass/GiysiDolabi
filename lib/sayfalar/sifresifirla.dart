@@ -19,7 +19,17 @@ class _SifreSifirlaState extends State<SifreSifirla> {
     return Scaffold(
         key: _scaffoldAnahtari,
         appBar: AppBar(
-          title: Text("Şifre Sıfırla"),
+          centerTitle: true,
+          toolbarHeight: 50,
+          title: Text(
+            "Sifre Sıfırla",
+            style: TextStyle(
+              color: Colors.grey[100],
+              fontSize: 22,
+              fontFamily: 'LobsterTwoItalic',
+            ),
+          ),
+          backgroundColor: Colors.orange[300],
         ),
         body: ListView(
           children: <Widget>[
@@ -71,7 +81,7 @@ class _SifreSifirlaState extends State<SifreSifirla> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.orange[300],
                           textColor: Colors.white,
                         ),
                       ),

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:socialapp/sayfalar/akis.dart';
 import 'package:socialapp/sayfalar/ara.dart';
 import 'package:socialapp/sayfalar/duyurular.dart';
+import 'package:socialapp/sayfalar/havadurumu.dart';
 import 'package:socialapp/sayfalar/profil.dart';
 import 'package:socialapp/sayfalar/yukle.dart';
 import 'package:socialapp/servisler/yetkilendirmeservisi.dart';
@@ -47,6 +48,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           Akis(),
           Ara(),
           Yukle(),
+          HavaDurumu(),
           Duyurular(),
           Profil(
             profilSahibiid: aktifkullaniciid,
@@ -71,6 +73,11 @@ class _AnaSayfaState extends State<AnaSayfa> {
           ),
           Icon(
             Icons.add_a_photo,
+            size: 30,
+            color: Colors.grey[500],
+          ),
+          Icon(
+            FontAwesomeIcons.cloudSunRain,
             size: 30,
             color: Colors.grey[500],
           ),

@@ -142,7 +142,7 @@ class _AkisState extends State<Akis> {
         kullaniciVarmi = true;
       }
     }
-    print(yayinlananKullanici);
+    //print(yayinlananKullanici);
     if (!kullaniciVarmi) {
       yayinlananKullanici.add(kombin.yayinlayanId);
       //print(yayinlayan.kullaniciAdi);

@@ -44,6 +44,8 @@ dependencies:
   story_view: ^0.12.7
   curved_navigation_bar: ^0.3.7
   font_awesome_flutter: ^8.11.0
+  geolocator:
+  http: ^0.12.2
 
 dev_dependencies:
   flutter_test:
