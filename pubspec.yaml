@@ -46,6 +46,7 @@ dependencies:
   font_awesome_flutter: ^8.11.0
   geolocator:
   http: ^0.12.2
+  dropdown_formfield: ^0.1.3
 
 dev_dependencies:
   flutter_test:

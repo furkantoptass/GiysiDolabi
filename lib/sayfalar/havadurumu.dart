@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -26,12 +26,26 @@ class _HavaDurumuState extends State<HavaDurumu> {
   bool veriVarmi = false;
   String data;
   List<Kombin> _kombinler = [];
-  Future<void> _kullaniciKombinleriGetir() async {
+
+  /* Future<void> _kullaniciKombinleriGetir() async {
     String aktifKullaniciId =
         Provider.of<YetkilendirmeServisi>(context, listen: false)
             .aktifkullaniciid;
     List<Kombin> kombinler =
         await FireStoreServisi().kullaniciKombinleriGetir(aktifKullaniciId);
+
+    if (mounted) {
+      setState(() {
+        _kombinler = kombinler;
+      });
+    }
+  }*/
+  Future<void> _kullaniciKombinleriGetir(mevsim) async {
+    String aktifKullaniciId =
+        Provider.of<YetkilendirmeServisi>(context, listen: false)
+            .aktifkullaniciid;
+    List<Kombin> kombinler = await FireStoreServisi()
+        .kullaniciMevsimlikKombinleriGetir(aktifKullaniciId, mevsim);
 
     if (mounted) {
       setState(() {
@@ -65,10 +79,11 @@ class _HavaDurumuState extends State<HavaDurumu> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     getData().then((data) => {havaderecesi = havaderecesi});
-    _kullaniciKombinleriGetir();
+    //_kullaniciKombinleriGetir();
   }
 
   @override
@@ -258,6 +273,7 @@ class _HavaDurumuState extends State<HavaDurumu> {
       backgroundimage =
           "https://images.unsplash.com/photo-1581224463294-908316338239?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
       havadurumu = "Açık ☀";
+      _kullaniciKombinleriGetir("Yaz");
       havaYorumu = "Bugün Tshirt kombinlerini deneyebilirsin. ";
       //return Icon(FontAwesomeIcons.sun);
     } else if (havadurumu == "few clouds") {
@@ -265,48 +281,57 @@ class _HavaDurumuState extends State<HavaDurumu> {
           "https://images.unsplash.com/photo-1514454529242-9e4677563e7b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80";
       havadurumu = "Bulutlu 🌤";
       havaYorumu = "Bugün Tshirt kombinlerini deneyebilirsin. ";
+      _kullaniciKombinleriGetir("İlkbahar");
       //return Icon(FontAwesomeIcons.cloudSun);
     } else if (havadurumu == "scattered clouds") {
       backgroundimage =
           "https://images.unsplash.com/photo-1596612265825-f7d7506ae4ad?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80";
       havadurumu = "Parçalı Bulutlu ☁";
       havaYorumu = "Bugün Tshirt kombinlerini deneyebilirsin. ";
+      _kullaniciKombinleriGetir("İlkbahar");
       //return Icon(FontAwesomeIcons.cloud);
     } else if (havadurumu == "broken clouds") {
       backgroundimage =
           "https://images.unsplash.com/photo-1513069020900-a162c4db0762?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=282&q=80";
       havadurumu = "Parçalı Bulutlu ☁";
       havaYorumu = "Bugün Tshirt kombinlerini deneyebilirsin. ";
+      _kullaniciKombinleriGetir("Sonbahar");
       // return Icon(FontAwesomeIcons.cloudflare);
     } else if (havadurumu == "shower rain") {
       backgroundimage =
           "https://images.unsplash.com/photo-1512511708753-3150cd2ec8ee?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80";
       havadurumu = "Sağanak Yağmurlu 🌧️";
       havaYorumu = "Bugün Tshirt kombinlerini deneyebilirsin. ";
+      _kullaniciKombinleriGetir("Yaz");
       // return Icon(FontAwesomeIcons.cloudShowersHeavy);
     } else if (havadurumu == "rain") {
       backgroundimage =
           "https://images.unsplash.com/photo-1525087740718-9e0f2c58c7ef?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=334&q=80";
       havadurumu = "Yağmurlu ☔";
       havaYorumu = "Bugün Tshirt kombinlerini deneyebilirsin. ";
+      _kullaniciKombinleriGetir("Kış");
       // return Icon(FontAwesomeIcons.cloudRain);
     } else if (havadurumu == "thunderstorm") {
       backgroundimage =
           "https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80";
       havadurumu = "Rüzgarlı 💨";
       havaYorumu = "Bugün Tshirt kombinlerini deneyebilirsin. ";
+      _kullaniciKombinleriGetir("İlkbahar");
+      _kullaniciKombinleriGetir("Sonbahar");
       // return Icon(FontAwesomeIcons.pooStorm);
     } else if (havadurumu == "snow") {
       backgroundimage =
           "https://images.unsplash.com/photo-1516715094483-75da7dee9758?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=967&q=80";
       havadurumu = "Karlı 🌨️";
       havaYorumu = "Bugün Tshirt kombinlerini deneyebilirsin. ";
+      _kullaniciKombinleriGetir("Kış");
       // return Icon(FontAwesomeIcons.cloudMeatball);
     } else if (havadurumu == "mist") {
       backgroundimage =
           "https://images.unsplash.com/photo-1459496330497-25b1010dd9c8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1053&q=80";
       havadurumu = "Sisli 🌫️";
       havaYorumu = "Bugün Tshirt kombinlerini deneyebilirsin. ";
+      _kullaniciKombinleriGetir("İlkbahar");
       // return Icon(FontAwesomeIcons.smog);
     } else {
       // return Icon(FontAwesomeIcons.smile);

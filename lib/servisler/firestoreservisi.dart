@@ -227,10 +227,7 @@ class FireStoreServisi {
     });
   }
 
-  Future<void> kombinOlustur({
-    kombinResmiUrl,
-    yayinlayanid,
-  }) async {
+  Future<void> kombinOlustur({kombinResmiUrl, yayinlayanid, mevsim}) async {
     await _firestore
         .collection("kombinler")
         .document(yayinlayanid)
@@ -238,6 +235,7 @@ class FireStoreServisi {
         .add({
       "kombinResmiUrl": kombinResmiUrl,
       "yayinlayanId": yayinlayanid,
+      "mevsim": mevsim,
       "olusturmaZamani": zaman,
     });
   }
@@ -286,6 +284,23 @@ class FireStoreServisi {
         .collection("kombinler")
         .document(kullaniciID)
         .collection("kullaniciKombinleri")
+        .orderBy("olusturmaZamani", descending: true)
+        .getDocuments();
+    List<Kombin> kombinler =
+        snapshot.documents.map((doc) => Kombin.dokumandanuret(doc)).toList();
+    return kombinler;
+  }
+
+  Future<List<Kombin>> kullaniciMevsimlikKombinleriGetir(
+      kullaniciID, mevsim) async {
+    QuerySnapshot snapshot = await _firestore
+        .collection("kombinler")
+        .document(kullaniciID)
+        .collection("kullaniciKombinleri")
+        .where(
+          "mevsim",
+          isEqualTo: mevsim,
+        )
         .orderBy("olusturmaZamani", descending: true)
         .getDocuments();
     List<Kombin> kombinler =

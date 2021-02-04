@@ -17,6 +17,7 @@ class Kombinler extends StatefulWidget {
 
 class _KombinlerState extends State<Kombinler> {
   final storyController = StoryController();
+  // ignore: deprecated_member_use
   List<StoryItem> stories = new List();
   final controller = PageController();
   @override

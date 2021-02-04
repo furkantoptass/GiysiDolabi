@@ -1,3 +1,4 @@
+import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,19 @@ class KombinYukle extends StatefulWidget {
 }
 
 class _KombinYukleState extends State<KombinYukle> {
+  TextEditingController mevsimcont = TextEditingController();
+  String _myActivity;
+  // ignore: unused_field
+  String _myActivityResult;
   File dosya;
   bool yukleniyor = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _myActivity = '';
+    _myActivityResult = '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +93,41 @@ class _KombinYukleState extends State<KombinYukle> {
           SizedBox(
             height: 20.0,
           ),
+          DropDownFormField(
+            titleText: 'Mevsimler',
+            hintText: 'Lütfen bir tane seçin',
+            value: _myActivity,
+            onSaved: (value) {
+              setState(() {
+                _myActivity = value;
+              });
+            },
+            onChanged: (value) {
+              setState(() {
+                _myActivity = value;
+              });
+            },
+            dataSource: [
+              {
+                "display": "Yaz",
+                "value": "Yaz",
+              },
+              {
+                "display": "Kış",
+                "value": "Kış",
+              },
+              {
+                "display": "İlkbahar",
+                "value": "İlkbahar",
+              },
+              {
+                "display": "Sonbahar",
+                "value": "Sonbahar",
+              },
+            ],
+            textField: 'display',
+            valueField: 'value',
+          ),
         ],
       ),
     );
@@ -98,6 +145,7 @@ class _KombinYukleState extends State<KombinYukle> {
       await FireStoreServisi().kombinOlustur(
         kombinResmiUrl: resimUrl,
         yayinlayanid: aktifkullaniciID,
+        mevsim: _myActivity,
       );
       setState(() {
         yukleniyor = false;
