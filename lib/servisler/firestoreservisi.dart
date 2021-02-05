@@ -6,7 +6,7 @@ import 'package:socialapp/modeller/kullanici.dart';
 import 'package:socialapp/servisler/storageservis.dart';
 
 class FireStoreServisi {
-  final Firestore _firestore = Firestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   int j = 0;
   final zaman = DateTime.now();
   List<String> followers = [];
@@ -16,7 +16,7 @@ class FireStoreServisi {
 
   List<String> chatKullanicilari = [];
   Future<void> kullaniciOlustur({id, email, kullaniciAdi, fotoUrl = ""}) async {
-    await _firestore.collection("kullanicilar").document(id).setData({
+    await _firestore.collection("kullanicilar").doc(id).set({
       "kullaniciAdi": kullaniciAdi,
       "email": email,
       "fotoUrl": fotoUrl,
@@ -27,7 +27,7 @@ class FireStoreServisi {
 
   Future<Kullanici> kullanicilariGetir(id) async {
     DocumentSnapshot doc =
-        await _firestore.collection("kullanicilar").document(id).get();
+        await _firestore.collection("kullanicilar").doc(id).get();
     if (doc.exists) {
       Kullanici kullanici = Kullanici.dokumandanuret(doc);
       return kullanici;
@@ -40,7 +40,7 @@ class FireStoreServisi {
       String kullaniciAdi,
       String fotoUrl = "",
       String hakkinda}) {
-    _firestore.collection("kullanicilar").document(kullaniciID).updateData({
+    _firestore.collection("kullanicilar").doc(kullaniciID).update({
       "kullaniciAdi": kullaniciAdi,
       "hakkinda": hakkinda,
       "fotoUrl": fotoUrl
@@ -51,10 +51,10 @@ class FireStoreServisi {
     QuerySnapshot snapshot = await _firestore
         .collection("kullanicilar")
         .where("kullaniciAdi", isGreaterThanOrEqualTo: kelime)
-        .getDocuments();
+        .get();
 
     List<Kullanici> kullanicilar =
-        snapshot.documents.map((doc) => Kullanici.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kullanici.dokumandanuret(doc)).toList();
     return kullanicilar;
   }
 
@@ -62,11 +62,11 @@ class FireStoreServisi {
     QuerySnapshot snapshot;
     QuerySnapshot snapshots = await _firestore
         .collection("takipciler")
-        .document(kullaniciId)
+        .doc(kullaniciId)
         .collection("kullanicininTakipcileri")
-        .getDocuments();
+        .get();
 
-    followers = snapshots.documents.map((doc) => doc.documentID).toList();
+    followers = snapshots.docs.map((doc) => doc.id).toList();
 
     //String field = followers[i];
     if (followers.isEmpty) {
@@ -75,10 +75,10 @@ class FireStoreServisi {
     snapshot = await _firestore
         .collection("kullanicilar")
         .where(FieldPath.documentId, whereIn: followers)
-        .getDocuments();
+        .get();
 
     List<Kullanici> kullanicilar =
-        snapshot.documents.map((doc) => Kullanici.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kullanici.dokumandanuret(doc)).toList();
     //print(kullanicilar);
     return kullanicilar;
   }
@@ -87,11 +87,11 @@ class FireStoreServisi {
     QuerySnapshot snapshot;
     QuerySnapshot snapshots = await _firestore
         .collection("takipedilenler")
-        .document(kullaniciId)
+        .doc(kullaniciId)
         .collection("kullanicininTakipedilenleri")
-        .getDocuments();
+        .get();
 
-    followers = snapshots.documents.map((doc) => doc.documentID).toList();
+    followers = snapshots.docs.map((doc) => doc.id).toList();
 
     //String field = followers[i];
     if (followers.isEmpty) {
@@ -100,10 +100,10 @@ class FireStoreServisi {
     snapshot = await _firestore
         .collection("kullanicilar")
         .where(FieldPath.documentId, whereIn: followers)
-        .getDocuments();
+        .get();
 
     List<Kullanici> kullanicilar =
-        snapshot.documents.map((doc) => Kullanici.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kullanici.dokumandanuret(doc)).toList();
     //print(kullanicilar);
     return kullanicilar;
   }
@@ -112,11 +112,11 @@ class FireStoreServisi {
     QuerySnapshot snapshot;
     QuerySnapshot snapshots = await _firestore
         .collection("begeniler")
-        .document(gonderiId)
+        .doc(gonderiId)
         .collection("gonderiBegenileri")
-        .getDocuments();
+        .get();
 
-    begeniler = snapshots.documents.map((doc) => doc.documentID).toList();
+    begeniler = snapshots.docs.map((doc) => doc.id).toList();
 
     //String field = followers[i];
     if (begeniler.isEmpty) {
@@ -125,10 +125,10 @@ class FireStoreServisi {
     snapshot = await _firestore
         .collection("kullanicilar")
         .where(FieldPath.documentId, whereIn: begeniler)
-        .getDocuments();
+        .get();
 
     List<Kullanici> kullanicilar =
-        snapshot.documents.map((doc) => Kullanici.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kullanici.dokumandanuret(doc)).toList();
     //print(kullanicilar);
     return kullanicilar;
   }
@@ -136,16 +136,16 @@ class FireStoreServisi {
   void takipEt({String aktifKullaniciId, String profilSahibiId}) {
     _firestore
         .collection("takipciler")
-        .document(profilSahibiId)
+        .doc(profilSahibiId)
         .collection("kullanicininTakipcileri")
-        .document(aktifKullaniciId)
-        .setData({});
+        .doc(aktifKullaniciId)
+        .set({});
     _firestore
         .collection("takipedilenler")
-        .document(aktifKullaniciId)
+        .doc(aktifKullaniciId)
         .collection("kullanicininTakipedilenleri")
-        .document(profilSahibiId)
-        .setData({});
+        .doc(profilSahibiId)
+        .set({});
 
     duyuruEkle(
       aktiviteTipi: "takip",
@@ -157,9 +157,9 @@ class FireStoreServisi {
   void takipdenCik({String aktifKullaniciId, String profilSahibiId}) {
     _firestore
         .collection("takipciler")
-        .document(profilSahibiId)
+        .doc(profilSahibiId)
         .collection("kullanicininTakipcileri")
-        .document(aktifKullaniciId)
+        .doc(aktifKullaniciId)
         .get()
         .then((DocumentSnapshot doc) {
       if (doc.exists) {
@@ -168,9 +168,9 @@ class FireStoreServisi {
     });
     _firestore
         .collection("takipedilenler")
-        .document(aktifKullaniciId)
+        .doc(aktifKullaniciId)
         .collection("kullanicininTakipedilenleri")
-        .document(profilSahibiId)
+        .doc(profilSahibiId)
         .get()
         .then((DocumentSnapshot doc) {
       if (doc.exists) {
@@ -183,9 +183,9 @@ class FireStoreServisi {
       {String aktifKullaniciId, String profilSahibiId}) async {
     DocumentSnapshot doc = await _firestore
         .collection("takipedilenler")
-        .document(aktifKullaniciId)
+        .doc(aktifKullaniciId)
         .collection("kullanicininTakipedilenleri")
-        .document(profilSahibiId)
+        .doc(profilSahibiId)
         .get();
     if (doc.exists) {
       return true;
@@ -196,26 +196,26 @@ class FireStoreServisi {
   Future<int> takipciSayisi(kullaniciID) async {
     QuerySnapshot snapshot = await _firestore
         .collection("takipciler")
-        .document(kullaniciID)
+        .doc(kullaniciID)
         .collection("kullanicininTakipcileri")
-        .getDocuments();
-    return snapshot.documents.length;
+        .get();
+    return snapshot.docs.length;
   }
 
   Future<int> takipEdilenSayisi(kullaniciID) async {
     QuerySnapshot snapshot = await _firestore
         .collection("takipedilenler")
-        .document(kullaniciID)
+        .doc(kullaniciID)
         .collection("kullanicininTakipedilenleri")
-        .getDocuments();
-    return snapshot.documents.length;
+        .get();
+    return snapshot.docs.length;
   }
 
   Future<void> gonderiOlustur(
       {gonderiResmiUrl, aciklama, yayinlayanId, konum}) async {
     await _firestore
         .collection("gonderiler")
-        .document(yayinlayanId)
+        .doc(yayinlayanId)
         .collection("kullanicigonderileri")
         .add({
       "gonderiResmiUrl": gonderiResmiUrl,
@@ -230,7 +230,7 @@ class FireStoreServisi {
   Future<void> kombinOlustur({kombinResmiUrl, yayinlayanid, mevsim}) async {
     await _firestore
         .collection("kombinler")
-        .document(yayinlayanid)
+        .doc(yayinlayanid)
         .collection("kullaniciKombinleri")
         .add({
       "kombinResmiUrl": kombinResmiUrl,
@@ -243,24 +243,24 @@ class FireStoreServisi {
   Future<List<Gonderi>> gonderileriGetir(kullaniciID) async {
     QuerySnapshot snapshot = await _firestore
         .collection("gonderiler")
-        .document(kullaniciID)
+        .doc(kullaniciID)
         .collection("kullanicigonderileri")
         .orderBy("olusturmaZamani", descending: true)
-        .getDocuments();
+        .get();
     List<Gonderi> gonderiler =
-        snapshot.documents.map((doc) => Gonderi.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Gonderi.dokumandanuret(doc)).toList();
     return gonderiler;
   }
 
   Future<List<Gonderi>> akisGonderileriniGetir(kullaniciID) async {
     QuerySnapshot snapshot = await _firestore
         .collection("akislar")
-        .document(kullaniciID)
+        .doc(kullaniciID)
         .collection("kullaniciAkisGonderileri")
         .orderBy("olusturmaZamani", descending: true)
-        .getDocuments();
+        .get();
     List<Gonderi> gonderiler =
-        snapshot.documents.map((doc) => Gonderi.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Gonderi.dokumandanuret(doc)).toList();
     return gonderiler;
   }
 
@@ -269,25 +269,25 @@ class FireStoreServisi {
     var saatKurali = DateTime.now().subtract(Duration(hours: 24));
     QuerySnapshot snapshot = await _firestore
         .collection("kombinakislari")
-        .document(kullaniciID)
+        .doc(kullaniciID)
         .collection("kullaniciAkisKombinleri")
         .where("olusturmaZamani", isGreaterThanOrEqualTo: saatKurali)
         .orderBy("olusturmaZamani", descending: true)
-        .getDocuments();
+        .get();
     List<Kombin> kombinler =
-        snapshot.documents.map((doc) => Kombin.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kombin.dokumandanuret(doc)).toList();
     return kombinler;
   }
 
   Future<List<Kombin>> kullaniciKombinleriGetir(kullaniciID) async {
     QuerySnapshot snapshot = await _firestore
         .collection("kombinler")
-        .document(kullaniciID)
+        .doc(kullaniciID)
         .collection("kullaniciKombinleri")
         .orderBy("olusturmaZamani", descending: true)
-        .getDocuments();
+        .get();
     List<Kombin> kombinler =
-        snapshot.documents.map((doc) => Kombin.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kombin.dokumandanuret(doc)).toList();
     return kombinler;
   }
 
@@ -295,16 +295,16 @@ class FireStoreServisi {
       kullaniciID, mevsim) async {
     QuerySnapshot snapshot = await _firestore
         .collection("kombinler")
-        .document(kullaniciID)
+        .doc(kullaniciID)
         .collection("kullaniciKombinleri")
         .where(
           "mevsim",
           isEqualTo: mevsim,
         )
         .orderBy("olusturmaZamani", descending: true)
-        .getDocuments();
+        .get();
     List<Kombin> kombinler =
-        snapshot.documents.map((doc) => Kombin.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kombin.dokumandanuret(doc)).toList();
     return kombinler;
   }
 
@@ -318,18 +318,18 @@ class FireStoreServisi {
         .collection("kullaniciAkisKombinleri")
         .where("yayinlayanId", isEqualTo: istenilenId)
         .where("olusturmaZamani", isGreaterThanOrEqualTo: saatKurali)
-        .getDocuments();
+        .get();
     List<Kombin> kombinler =
-        snapshot.documents.map((doc) => Kombin.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kombin.dokumandanuret(doc)).toList();
     return kombinler;
   }*/
 
   Future<void> gonderiSil({String aktifKullaniciId, Gonderi gonderi}) async {
     _firestore
         .collection("gonderiler")
-        .document(aktifKullaniciId)
+        .doc(aktifKullaniciId)
         .collection("kullanicigonderileri")
-        .document(gonderi.id)
+        .doc(gonderi.id)
         .get()
         .then((DocumentSnapshot doc) {
       if (doc.exists) {
@@ -338,21 +338,21 @@ class FireStoreServisi {
     });
     QuerySnapshot yorumlarsnapshot = await _firestore
         .collection("yorumlar")
-        .document(gonderi.id)
+        .doc(gonderi.id)
         .collection("gonderiYorumlari")
-        .getDocuments();
-    yorumlarsnapshot.documents.forEach((DocumentSnapshot doc) {
+        .get();
+    yorumlarsnapshot.docs.forEach((DocumentSnapshot doc) {
       if (doc.exists) {
         doc.reference.delete();
       }
     });
     QuerySnapshot duyurularSnapshot = await _firestore
         .collection("duyurular")
-        .document(gonderi.yayinlayanId)
+        .doc(gonderi.yayinlayanId)
         .collection("kullanicininDuyurulari")
         .where("gonderiId", isEqualTo: gonderi.id)
-        .getDocuments();
-    duyurularSnapshot.documents.forEach((DocumentSnapshot doc) {
+        .get();
+    duyurularSnapshot.docs.forEach((DocumentSnapshot doc) {
       if (doc.exists) {
         doc.reference.delete();
       }
@@ -364,22 +364,22 @@ class FireStoreServisi {
   Future<void> gonderiBegen(Gonderi gonderi, String aktifKullaniciID) async {
     DocumentReference docRef = _firestore
         .collection("gonderiler")
-        .document(gonderi.yayinlayanId)
+        .doc(gonderi.yayinlayanId)
         .collection("kullanicigonderileri")
-        .document(gonderi.id);
+        .doc(gonderi.id);
     DocumentSnapshot doc = await docRef.get();
     if (doc.exists) {
       Gonderi gonderi = Gonderi.dokumandanuret(doc);
       int yeniBegeniSayisi = gonderi.begeniSayisi + 1;
-      docRef.updateData({
+      docRef.update({
         "begeniSayisi": yeniBegeniSayisi,
       });
       _firestore
           .collection("begeniler")
-          .document(gonderi.id)
+          .doc(gonderi.id)
           .collection("gonderiBegenileri")
-          .document(aktifKullaniciID)
-          .setData({});
+          .doc(aktifKullaniciID)
+          .set({});
     }
     //beğen notificationu
     duyuruEkle(
@@ -394,21 +394,21 @@ class FireStoreServisi {
       Gonderi gonderi, String aktifKullaniciID) async {
     DocumentReference docRef = _firestore
         .collection("gonderiler")
-        .document(gonderi.yayinlayanId)
+        .doc(gonderi.yayinlayanId)
         .collection("kullanicigonderileri")
-        .document(gonderi.id);
+        .doc(gonderi.id);
     DocumentSnapshot doc = await docRef.get();
     if (doc.exists) {
       Gonderi gonderi = Gonderi.dokumandanuret(doc);
       int yeniBegeniSayisi = gonderi.begeniSayisi - 1;
-      docRef.updateData({
+      docRef.update({
         "begeniSayisi": yeniBegeniSayisi,
       });
       DocumentSnapshot docBegeni = await _firestore
           .collection("begeniler")
-          .document(gonderi.id)
+          .doc(gonderi.id)
           .collection("gonderiBegenileri")
-          .document(aktifKullaniciID)
+          .doc(aktifKullaniciID)
           .get();
       if (docBegeni.exists) {
         docBegeni.reference.delete();
@@ -419,9 +419,9 @@ class FireStoreServisi {
   Future<bool> begeniVarmi(Gonderi gonderi, String aktifKullaniciID) async {
     DocumentSnapshot docBegeni = await _firestore
         .collection("begeniler")
-        .document(gonderi.id)
+        .doc(gonderi.id)
         .collection("gonderiBegenileri")
-        .document(aktifKullaniciID)
+        .doc(aktifKullaniciID)
         .get();
     if (docBegeni.exists) {
       return true;
@@ -432,7 +432,7 @@ class FireStoreServisi {
   Stream<QuerySnapshot> yorumlariGetir(String gonderiId) {
     return _firestore
         .collection("yorumlar")
-        .document(gonderiId)
+        .doc(gonderiId)
         .collection("gonderiYorumlari")
         .orderBy("olusturmaZamani", descending: true)
         .snapshots();
@@ -441,7 +441,7 @@ class FireStoreServisi {
   void yorumEkle({String aktifKullaniciId, Gonderi gonderi, String icerik}) {
     _firestore
         .collection("yorumlar")
-        .document(gonderi.id)
+        .doc(gonderi.id)
         .collection("gonderiYorumlari")
         .add({
       "icerik": icerik,
@@ -469,7 +469,7 @@ class FireStoreServisi {
     }
     _firestore
         .collection("duyurular")
-        .document(profilSahibiId)
+        .doc(profilSahibiId)
         .collection("kullanicininDuyurulari")
         .add({
       "aktiviteYapanId": aktiviteYapanId,
@@ -484,14 +484,14 @@ class FireStoreServisi {
   Future<List<Duyuru>> duyurulariGetir(String profilSahibiId) async {
     QuerySnapshot snapshot = await _firestore
         .collection("duyurular")
-        .document(profilSahibiId)
+        .doc(profilSahibiId)
         .collection("kullanicininDuyurulari")
         .orderBy("olusturmaZamani", descending: true)
         .limit(20)
-        .getDocuments();
+        .get();
 
     List<Duyuru> duyurular = [];
-    snapshot.documents.forEach((DocumentSnapshot doc) {
+    snapshot.docs.forEach((DocumentSnapshot doc) {
       Duyuru duyuru = Duyuru.dokumandanuret(doc);
       duyurular.add(duyuru);
     });
@@ -502,9 +502,9 @@ class FireStoreServisi {
       String gonderiId, String gonderiSahibiId) async {
     DocumentSnapshot doc = await _firestore
         .collection("gonderiler")
-        .document(gonderiSahibiId)
+        .doc(gonderiSahibiId)
         .collection("kullanicigonderileri")
-        .document(gonderiId)
+        .doc(gonderiId)
         .get();
     Gonderi gonderi = Gonderi.dokumandanuret(doc);
     return gonderi;
@@ -517,24 +517,20 @@ class FireStoreServisi {
       String chatRoomId,
       users}) {
     chatKullanicilari = [aktifKullaniciId, alanId];
-    _firestore
-        .collection("chatRooms")
-        .document(chatRoomId)
-        .collection("chats")
-        .add({
+    _firestore.collection("chatRooms").doc(chatRoomId).collection("chats").add({
       "gonderenId": aktifKullaniciId,
       "icerik": icerik,
       "olusturmaZamani": zaman,
     });
 
-    /*_firestore.collection("chatRooms").document(chatRoomId).setData(users);*/
+    /*_firestore.collection("chatRooms").document(chatRoomId).set(users);*/
   }
 
   chatOdasiOlustur(users, chatRoomId) {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection("chatRooms")
-        .document(chatRoomId)
-        .setData(users)
+        .doc(chatRoomId)
+        .set(users)
         .catchError((e) {
       print(e);
     });
@@ -544,7 +540,7 @@ class FireStoreServisi {
       {String alanId, String aktifKullaniciId, String chatRoomId}) {
     Stream<QuerySnapshot> q1 = _firestore
         .collection("chatRooms")
-        .document(chatRoomId)
+        .doc(chatRoomId)
         .collection("chats")
         .orderBy("olusturmaZamani", descending: false)
         .snapshots();
@@ -564,14 +560,12 @@ class FireStoreServisi {
     QuerySnapshot snapshots = await _firestore
         .collection("chatRooms")
         .where('users', arrayContains: kid)
-        .getDocuments();
+        .get();
 
-    mesajlar = snapshots.documents
-        .map((doc) => doc.data["users"][0].toString())
-        .toList();
-    mesajlar2 = snapshots.documents
-        .map((doc) => doc.data["users"][1].toString())
-        .toList();
+    mesajlar =
+        snapshots.docs.map((doc) => doc.data()["users"][0].toString()).toList();
+    mesajlar2 =
+        snapshots.docs.map((doc) => doc.data()["users"][1].toString()).toList();
 
     for (var i = 0; i < mesajlar.length; i++) {
       if (mesajlar[i] == kid) {
@@ -596,10 +590,10 @@ class FireStoreServisi {
     snapshot = await _firestore
         .collection("kullanicilar")
         .where(FieldPath.documentId, whereIn: mesajlar)
-        .getDocuments();
+        .get();
 
     List<Kullanici> kullanicilar =
-        snapshot.documents.map((doc) => Kullanici.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kullanici.dokumandanuret(doc)).toList();
     //print(kullanicilar);
     return kullanicilar;
   }
@@ -608,10 +602,10 @@ class FireStoreServisi {
     QuerySnapshot snapshot = await _firestore
         .collection("kullanicilar")
         .where(FieldPath.documentId, isEqualTo: userId)
-        .getDocuments();
+        .get();
 
     List<Kullanici> kullanicilar =
-        snapshot.documents.map((doc) => Kullanici.dokumandanuret(doc)).toList();
+        snapshot.docs.map((doc) => Kullanici.dokumandanuret(doc)).toList();
     return kullanicilar;
   }*/
 }

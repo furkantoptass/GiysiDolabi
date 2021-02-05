@@ -16,22 +16,22 @@ class Kullanici {
       this.email,
       this.hakkinda});
 
-  factory Kullanici.firebasedenuret(FirebaseUser kullanici) {
+  factory Kullanici.firebasedenuret(User kullanici) {
     return Kullanici(
       id: kullanici.uid,
       kullaniciAdi: kullanici.displayName,
-      fotourl: kullanici.photoUrl,
+      fotourl: kullanici.photoURL,
       email: kullanici.email,
     );
   }
 
   factory Kullanici.dokumandanuret(DocumentSnapshot doc) {
     return Kullanici(
-      id: doc.documentID,
-      kullaniciAdi: doc['kullaniciAdi'],
-      email: doc['email'],
-      fotourl: doc['fotoUrl'],
-      hakkinda: doc["hakkinda"],
+      id: doc.id,
+      kullaniciAdi: doc.data()['kullaniciAdi'],
+      email: doc.data()['email'],
+      fotourl: doc.data()['fotoUrl'],
+      hakkinda: doc.data()['hakkinda'],
     );
   }
 }

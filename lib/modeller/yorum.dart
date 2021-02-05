@@ -9,12 +9,11 @@ class Yorum {
   Yorum({this.id, this.icerik, this.yayinlayanid, this.olusturmaZamani});
 
   factory Yorum.dokumandanuret(DocumentSnapshot doc) {
-    var docData = doc.data;
     return Yorum(
-      id: doc.documentID,
-      icerik: docData['icerik'],
-      yayinlayanid: docData['yayinlayanID'],
-      olusturmaZamani: docData['olusturmaZamani'],
+      id: doc.id,
+      icerik: doc.data()["icerik"],
+      yayinlayanid: doc.data()['yayinlayanID'],
+      olusturmaZamani: doc.data()['olusturmaZamani'],
     );
   }
 }

@@ -14,13 +14,12 @@ class Mesaj {
       this.olusturmaZamani,
       this.id});
   factory Mesaj.dokumandanuret(DocumentSnapshot doc) {
-    var docData = doc.data;
     return Mesaj(
-      id: doc.documentID,
-      alanid: docData["alanId"],
-      gonderenid: docData['gonderenId'],
-      icerik: docData['icerik'],
-      olusturmaZamani: docData['olusturmaZamani'],
+      id: doc.id,
+      alanid: doc.data()["alanId"],
+      gonderenid: doc.data()['gonderenId'],
+      icerik: doc.data()['icerik'],
+      olusturmaZamani: doc.data()['olusturmaZamani'],
     );
   }
 }

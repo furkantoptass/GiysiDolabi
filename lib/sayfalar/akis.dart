@@ -47,53 +47,55 @@ class _AkisState extends State<Akis> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 50,
-          //shadowColor: Colors.grey[400],
-          centerTitle: true,
-          backgroundColor: Colors.orange[300],
-          title: Text(
-            "Giysi Dolabı",
-            style: TextStyle(
-              color: Colors.grey[100],
-              fontSize: 22,
-              fontFamily: 'LobsterTwoItalic',
-            ),
+      appBar: AppBar(
+        toolbarHeight: 50,
+        //shadowColor: Colors.grey[400],
+        centerTitle: true,
+        backgroundColor: Colors.orange[300],
+        title: Text(
+          "Giysi Dolabı",
+          style: TextStyle(
+            color: Colors.grey[100],
+            fontSize: 22,
+            fontFamily: 'LobsterTwoItalic',
           ),
-          leading: InkWell(
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => ChatRoom()));
-            },
-            child: Icon(
-              FontAwesomeIcons.commentMedical,
-              color: Colors.grey[100],
-              size: 25,
-            ),
-          ),
-          actions: [
-            InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => KombinYukle()));
-              },
-              child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(FontAwesomeIcons.camera)
-
-                  // Icon(
-                  //   Icons.photo_camera,
-                  //  color: Colors.grey[100],
-                  //   size: 25,
-                  ),
-            ),
-          ],
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: RefreshIndicator(
-                child: kombinVeAkisGetir(),
-                onRefresh: _akisKombinleriveGonderileriGetir)));
+        leading: InkWell(
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ChatRoom()));
+          },
+          child: Icon(
+            FontAwesomeIcons.commentMedical,
+            color: Colors.grey[100],
+            size: 25,
+          ),
+        ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => KombinYukle()));
+            },
+            child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(FontAwesomeIcons.camera)
+
+                // Icon(
+                //   Icons.photo_camera,
+                //  color: Colors.grey[100],
+                //   size: 25,
+                ),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: RefreshIndicator(
+            child: kombinVeAkisGetir(),
+            onRefresh: _akisKombinleriveGonderileriGetir),
+      ),
+    );
   }
 
   ListView kombinVeAkisGetir() {
@@ -137,7 +139,7 @@ class _AkisState extends State<Akis> {
   kombinKarti(Kombin kombin, Kullanici yayinlayan) {
     bool kullaniciVarmi = false;
 
-    for (var i = 0; i < yayinlananKullanici.length; i++) {
+    for (var i = 1; i < yayinlananKullanici.length; i++) {
       if (yayinlananKullanici[i] == yayinlayan.id) {
         kullaniciVarmi = true;
       }
@@ -145,7 +147,7 @@ class _AkisState extends State<Akis> {
     //print(yayinlananKullanici);
     if (!kullaniciVarmi) {
       yayinlananKullanici.add(kombin.yayinlayanId);
-      //print(yayinlayan.kullaniciAdi);
+      print(yayinlayan.kullaniciAdi);
       return Column(
         children: [
           Container(

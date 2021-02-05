@@ -3,15 +3,20 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:socialapp/modeller/kullanici.dart';
 
 class YetkilendirmeServisi {
+  final FirebaseAuth auth;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   String aktifkullaniciid;
 
-  Kullanici _kullaniciOlustur(FirebaseUser kullanici) {
+  YetkilendirmeServisi({this.auth});
+
+  Stream<User> get user => auth.authStateChanges();
+
+  Kullanici _kullaniciOlustur(User kullanici) {
     return kullanici == null ? null : Kullanici.firebasedenuret(kullanici);
   }
 
   Stream<Kullanici> get durumTakipcisi {
-    return _firebaseAuth.onAuthStateChanged.map(_kullaniciOlustur);
+    return _firebaseAuth.authStateChanges().map(_kullaniciOlustur);
   }
 
   Future<Kullanici> mailileKayit(String eposta, String sifre) async {
@@ -34,10 +39,10 @@ class YetkilendirmeServisi {
     GoogleSignInAccount googleHesabi = await GoogleSignIn().signIn();
     GoogleSignInAuthentication googleYetkiKartim =
         await googleHesabi.authentication;
-    AuthCredential sifresizGiris = GoogleAuthProvider.getCredential(
+    AuthCredential sifresizGiris = GoogleAuthProvider.credential(
         idToken: googleYetkiKartim.idToken,
         accessToken: googleYetkiKartim.accessToken);
-    AuthResult girisKarti =
+    UserCredential girisKarti =
         await _firebaseAuth.signInWithCredential(sifresizGiris);
     return _kullaniciOlustur(girisKarti.user);
   }

@@ -18,12 +18,12 @@ class Gonderi {
 
   factory Gonderi.dokumandanuret(DocumentSnapshot doc) {
     return Gonderi(
-      id: doc.documentID,
-      gonderiResmiUrl: doc["gonderiResmiUrl"],
-      aciklama: doc["aciklama"],
-      yayinlayanId: doc["yayinlayanId"],
-      begeniSayisi: doc["begeniSayisi"],
-      konum: doc["konum"],
+      id: doc.id,
+      gonderiResmiUrl: doc.data()["gonderiResmiUrl"],
+      aciklama: doc.data()["aciklama"],
+      yayinlayanId: doc.data()["yayinlayanId"],
+      begeniSayisi: doc.data()["begeniSayisi"],
+      konum: doc.data()["konum"],
     );
   }
 }

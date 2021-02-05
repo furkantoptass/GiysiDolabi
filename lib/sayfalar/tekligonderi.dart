@@ -44,10 +44,11 @@ class _TekliGonderiState extends State<TekliGonderi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Colors.orange[300],
+        centerTitle: true,
         title: Text(
-          "Gonderi",
-          style: TextStyle(color: Colors.black),
+          "Gönderi",
+          style: TextStyle(color: Colors.black, fontFamily: "RobotoBlack"),
         ),
         iconTheme: IconThemeData(color: Colors.black),
       ),

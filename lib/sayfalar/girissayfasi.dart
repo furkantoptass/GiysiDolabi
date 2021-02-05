@@ -6,6 +6,28 @@ import 'package:socialapp/sayfalar/sifresifirla.dart';
 import 'package:socialapp/servisler/firestoreservisi.dart';
 import 'package:socialapp/servisler/yetkilendirmeservisi.dart';
 
+class EmailFieldValidator {
+  static String validate(String girilenDeger) {
+    if (girilenDeger.isEmpty) {
+      return "Email alanı boş bırakılmaz";
+    } else if (!girilenDeger.contains("@")) {
+      return "Girilen değer mail değil";
+    }
+    return null;
+  }
+}
+
+class PasswordFieldValidator {
+  static String validate(String girilenDeger) {
+    if (girilenDeger.isEmpty) {
+      return "Şifre alanı boş bırakılmaz";
+    } else if (girilenDeger.trim().length < 4) {
+      return "Şifre 4 karakterden az olamaz";
+    }
+    return null;
+  }
+}
+
 class GirisSayfasi extends StatefulWidget {
   @override
   _GirisSayfasiState createState() => _GirisSayfasiState();
@@ -58,14 +80,7 @@ class _GirisSayfasiState extends State<GirisSayfasi> {
               errorStyle: TextStyle(fontSize: 17.0),
               prefixIcon: Icon(Icons.mail),
             ),
-            validator: (girilenDeger) {
-              if (girilenDeger.isEmpty) {
-                return "Email alanı boş bırakılmaz";
-              } else if (!girilenDeger.contains("@")) {
-                return "Girilen değer mail değil";
-              }
-              return null;
-            },
+            validator: EmailFieldValidator.validate,
             onSaved: (girilenDeger) => email = girilenDeger,
           ),
           SizedBox(
@@ -78,14 +93,7 @@ class _GirisSayfasiState extends State<GirisSayfasi> {
               errorStyle: TextStyle(fontSize: 17.0),
               prefixIcon: Icon(Icons.lock),
             ),
-            validator: (girilenDeger) {
-              if (girilenDeger.isEmpty) {
-                return "Şifre alanı boş bırakılmaz";
-              } else if (girilenDeger.trim().length < 4) {
-                return "Şifre 4 karakterden az olamaz";
-              }
-              return null;
-            },
+            validator: PasswordFieldValidator.validate,
             onSaved: (girilenDeger) => sifre = girilenDeger,
           ),
           SizedBox(

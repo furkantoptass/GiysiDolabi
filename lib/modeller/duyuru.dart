@@ -20,13 +20,13 @@ class Duyuru {
   });
   factory Duyuru.dokumandanuret(DocumentSnapshot doc) {
     return Duyuru(
-      id: doc.documentID,
-      aktiviteYapanId: doc['aktiviteYapanId'],
-      aktiviteTipi: doc['aktiviteTipi'],
-      gonderiId: doc['gonderiId'],
-      gonderiFoto: doc['gonderiFoto'],
-      yorum: doc['yorum'],
-      olusturulmaZamani: doc['olusturmaZamani'],
+      id: doc.id,
+      aktiviteYapanId: doc.data()['aktiviteYapanId'],
+      aktiviteTipi: doc.data()['aktiviteTipi'],
+      gonderiId: doc.data()['gonderiId'],
+      gonderiFoto: doc.data()['gonderiFoto'],
+      yorum: doc.data()['yorum'],
+      olusturulmaZamani: doc.data()['olusturmaZamani'],
     );
   }
 }

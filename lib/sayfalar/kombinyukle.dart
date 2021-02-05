@@ -38,14 +38,17 @@ class _KombinYukleState extends State<KombinYukle> {
   }
 
   Widget yukleButonu() {
-    return new IconButton(
-        icon: Icon(
-          Icons.file_upload,
-          size: 50.0,
-        ),
-        onPressed: () {
-          fotografSec();
-        });
+    return Container(
+      decoration: new BoxDecoration(color: Colors.orange[300]),
+      child: new IconButton(
+          icon: Icon(
+            Icons.file_upload,
+            size: 50.0,
+          ),
+          onPressed: () {
+            fotografSec();
+          }),
+    );
   }
 
   Widget gonderiFormu() {

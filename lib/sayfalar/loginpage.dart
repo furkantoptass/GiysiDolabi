@@ -312,13 +312,13 @@ class _LoginPageState extends State<LoginPage> {
 
   uyariGoster({hatakodu}) {
     String errMsg;
-    if (hatakodu == "ERROR_INVALID_EMAIL") {
+    if (hatakodu == "invalid-email") {
       errMsg = "Email Adresi Geçersiz";
-    } else if (hatakodu == "ERROR_WRONG_PASSWORD") {
+    } else if (hatakodu == "wrong-password") {
       errMsg = "Şifre Hatalı";
-    } else if (hatakodu == "ERROR_USER_NOT_FOUND") {
+    } else if (hatakodu == "user-not-found") {
       errMsg = "Kullanıcı bulunamadı";
-    } else if (hatakodu == "ERROR_USER_DISABLED") {
+    } else if (hatakodu == "user-disabled") {
       errMsg = "Kullanıcı engellenmiş";
     } else {
       errMsg = "Tanımlanamayan Hata $hatakodu";

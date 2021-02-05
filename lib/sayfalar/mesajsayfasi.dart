@@ -128,10 +128,9 @@ class _MesajSayfasiState extends State<MesajSayfasi> {
           }
 
           return ListView.builder(
-            itemCount: snapshot.data.documents.length,
+            itemCount: snapshot.data.docs.length,
             itemBuilder: (context, index) {
-              Mesaj yorum =
-                  Mesaj.dokumandanuret(snapshot.data.documents[index]);
+              Mesaj yorum = Mesaj.dokumandanuret(snapshot.data.docs[index]);
               print(context);
               return mesajSatiri(yorum);
             },

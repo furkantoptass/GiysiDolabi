@@ -4,35 +4,35 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 
 class StorageServisi {
-  StorageReference _storage = FirebaseStorage.instance.ref();
+  Reference _storage = FirebaseStorage.instance.ref();
   String resimid;
 
   Future<String> gonderResmiYukle(File resimDosyasi) async {
     resimid = Uuid().v4();
-    StorageUploadTask yuklemeYoneticisi = _storage
+    UploadTask yuklemeYoneticisi = _storage
         .child("resimler/gonderiler/gonderi_$resimid.jpg")
         .putFile(resimDosyasi);
-    StorageTaskSnapshot snapshot = await yuklemeYoneticisi.onComplete;
+    TaskSnapshot snapshot = await yuklemeYoneticisi;
     String yuklenenResimUrl = await snapshot.ref.getDownloadURL();
     return yuklenenResimUrl;
   }
 
   Future<String> kombinResmiYukle(File kombinDosyasi) async {
     resimid = Uuid().v4();
-    StorageUploadTask yuklemeYoneticisi = _storage
+    UploadTask yuklemeYoneticisi = _storage
         .child("resimler/kombinler/gonderi_$resimid.jpg")
         .putFile(kombinDosyasi);
-    StorageTaskSnapshot snapshot = await yuklemeYoneticisi.onComplete;
+    TaskSnapshot snapshot = await yuklemeYoneticisi;
     String yuklenenResimUrl = await snapshot.ref.getDownloadURL();
     return yuklenenResimUrl;
   }
 
   Future<String> profilResmiYukle(File resimDosyasi) async {
     resimid = Uuid().v4();
-    StorageUploadTask yuklemeYoneticisi = _storage
+    UploadTask yuklemeYoneticisi = _storage
         .child("resimler/profil/profil_$resimid.jpg")
         .putFile(resimDosyasi);
-    StorageTaskSnapshot snapshot = await yuklemeYoneticisi.onComplete;
+    TaskSnapshot snapshot = await yuklemeYoneticisi;
     String yuklenenResimUrl = await snapshot.ref.getDownloadURL();
     return yuklenenResimUrl;
   }

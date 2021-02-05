@@ -15,11 +15,11 @@ class Kombin {
       this.olusturmaZamani});
   factory Kombin.dokumandanuret(DocumentSnapshot doc) {
     return Kombin(
-      id: doc.documentID,
-      kombinResmiUrl: doc["kombinResmiUrl"],
-      yayinlayanId: doc["yayinlayanId"],
-      olusturmaZamani: doc["olusturmaZamani"],
-      mevsim: doc["mevsim"],
+      id: doc.id,
+      kombinResmiUrl: doc.data()["kombinResmiUrl"],
+      yayinlayanId: doc.data()["yayinlayanId"],
+      olusturmaZamani: doc.data()["olusturmaZamani"],
+      mevsim: doc.data()["mevsim"],
     );
   }
 }

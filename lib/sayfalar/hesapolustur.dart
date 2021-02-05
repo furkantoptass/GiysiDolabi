@@ -170,11 +170,11 @@ class _HesapOlusturState extends State<HesapOlustur> {
 
   uyariGoster({hatakodu}) {
     String errMsg;
-    if (hatakodu == "ERROR_INVALID_EMAIL") {
+    if (hatakodu == "invalid-email") {
       errMsg = "Email Adresi Geçersiz";
-    } else if (hatakodu == "ERROR_EMAIL_ALREADY_IN_USE") {
+    } else if (hatakodu == "email-already-in-use") {
       errMsg = "Email Adresi Kullanılıyor";
-    } else if (hatakodu == "ERROR_WEAK_PASSWORD") {
+    } else if (hatakodu == "weak-password") {
       errMsg = "Şifre 6 karakterden az olamaz";
     }
     var snackBar = SnackBar(

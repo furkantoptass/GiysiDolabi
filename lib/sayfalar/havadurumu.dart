@@ -16,6 +16,7 @@ class HavaDurumu extends StatefulWidget {
 }
 
 class _HavaDurumuState extends State<HavaDurumu> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   double latitude;
   double longitude;
   var cityname;
@@ -101,6 +102,7 @@ class _HavaDurumuState extends State<HavaDurumu> {
 
   Scaffold mainScreen() {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
         toolbarHeight: 50,
